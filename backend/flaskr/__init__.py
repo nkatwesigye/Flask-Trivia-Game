@@ -162,11 +162,36 @@ def create_app(test_config=None):
 
 
   # Error Handler
+  @app.errorhandler(400)
+  def bad_request(error):
+        """
+        :error handler for error 400 
+        :param error: Bad request
+        :return: error: HTTP status code, message: Error description
+        """
+        return jsonify({
+            'success': False,
+            'error': 400,
+            'message': ' Bad request ' + str(error)
+        }), 400
+  @app.errorhandler(500)
+  def bad_request(error):
+        """
+        :error handler for error 500 
+        :param error: Internal Server Error
+        :return: error: HTTP status code, message: Error description
+        """
+        return jsonify({
+            'success': False,
+            'error': 500,
+            'message': ' Internal Server Error ' + str(error)
+        }), 500
+
   @app.errorhandler(404)
   def not_found(error):
         """
-        Generic error handler for all endpoints
-        :param error: Any exception
+        :error handler for error 404 
+        :param error: Page not found
         :return: error: HTTP status code, message: Error description
         """
         return jsonify({
@@ -176,14 +201,14 @@ def create_app(test_config=None):
         }), 404
 
   @app.errorhandler(422)
-  def not_found(error):
+  def not_processable(error):
         """
         Generic error handler for unprocessable failure 
         """
         return jsonify({
             'success': False,
             'error': 422,
-            'message': 'Page not found ' + str(error)
+            'message': 'Request can not be processed ' + str(error)
         }), 422
  
   return app
