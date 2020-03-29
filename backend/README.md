@@ -66,26 +66,209 @@ One note before you delve into your tasks: for each endpoint you are expected to
 8. Create a POST endpoint to get questions to play the quiz. This endpoint should take category and previous question parameters and return a random questions within the given category, if provided, and that is not one of the previous questions. 
 9. Create error handlers for all expected errors including 400, 404, 422 and 500. 
 
-REVIEW_COMMENT
+
+### Error Handling
+
+Errors are returned as JSON as shown in the example below with following format:<br>
+
+         {
+            'success': False,
+            'error': 500,
+            'message': ' Internal Server Error ' + str(error)
+        }
+
+The API will return three types of errors:
+
+* 400 – bad request
+* 404 – resource not found
+* 422 – unprocessable
+* 500 - Internal Server Error
+
+
+## API Reference
+
+### Endpoints
 ```
-This README is missing documentation of your endpoints. Below is an example for your endpoint to get all categories. Please use it as a reference for creating your documentation and resubmit your code. 
-
-Endpoints
+GET '/questions'
 GET '/categories'
-GET ...
-POST ...
-DELETE ...
+GET '/categories/<int:category_id>/questions'
+POST '/questions'
+POST '/quizzes'
+DELETE '/questions/<int:question_id>'
+```
 
-GET '/categories'
-- Fetches a dictionary of categories in which the keys are the ids and the value is the corresponding string of the category
-- Request Arguments: None
-- Returns: An object with a single key, categories, that contains a object of id: category_string key:value pairs. 
+### GET '/questions'
+
+* General:
+  * Returns a dictionary with keys as questions,success,total_questions , with a list of dictionary questions as a value for the questions key value pair.
+  * Results are paginated in groups of 10.
+  * Also returns list of categories and total number of questions.
+* Sample: `curl http://127.0.0.1:5000/questions`<br>
+```
+ {
+  "categories": {
+    "1": "Science", 
+    "2": "Art", 
+    "3": "Geography", 
+    "4": "History", 
+    "5": "Entertainment", 
+    "6": "Sports"
+  }, 
+  "questions": [
+    {
+      "answer": "Apollo 13", 
+      "category": 5, 
+      "difficulty": 4, 
+      "id": 2, 
+      "question": "What movie earned Tom Hanks his third straight Oscar nomination, in 1996?"
+    }, 
+    {
+      "answer": "The Liver", 
+      "category": 1, 
+      "difficulty": 4, 
+      "id": 20, 
+      "question": "What is the heaviest organ in the human body?"
+    }
+  ], 
+  "success": true, 
+  "total_questions": 17
+}
+```
+
+### GET '/categories'
+
+* General: Returns a dictionary with the keys as ids and keys as categories.
+  * Sample: `curl http://127.0.0.1:5000/categories`<br> 
 {'1' : "Science",
 '2' : "Art",
 '3' : "Geography",
 '4' : "History",
 '5' : "Entertainment",
 '6' : "Sports"}
+
+#### GET /categories/\<int:id\>/questions
+
+* General:
+  * Gets questions by category id using url parameters.
+  * Returns JSON object with paginated matching questions.
+* Sample: `curl http://127.0.0.1:5000/categories/4/questions`<br>
+
+       {
+  "questions": [
+    {
+      "answer": "George Washington Carver", 
+      "category": 4, 
+      "difficulty": 2, 
+      "id": 12, 
+      "question": "Who invented Peanut Butter?"
+    }, 
+    {
+      "answer": "Scarab", 
+      "category": 4, 
+      "difficulty": 4, 
+      "id": 23, 
+      "question": "Which dung beetle was worshipped by the ancient Egyptians?"
+    }
+  ], 
+  "success": true
+}
+
+### POST /questions
+
+This endpoint either creates a new question or returns search results.
+
+1. If <strong>author</strong> search term is included in request:
+
+* General:
+  * Creates a new question using JSON request parameters.
+  * Returns JSON object with newly created question, as well as paginated questions.
+* Sample: `curl -X POST -H "Content-Type: application/json" http://localhost:5000/questions -d 
+'{"searchTerm" :"Author"}'\n`<br>
+
+        {
+  "questions": [
+    {
+      "answer": "Tom Cruise", 
+      "category": 5, 
+      "difficulty": 4, 
+      "id": 4, 
+      "question": "What actor did author Anne Rice first denounce, then praise in the role of her beloved Lestat?"
+    }
+  ], 
+  "success": true, 
+  "total_questions": 1
+}
+2.  If Json returned parameters include the key answer 
+
+* General:
+  * Add question capability:
+  * Endpoint checks for key answer from  returned json parameters
+* Sample: `curl -X POST -H "Content-Type: application/json" http://localhost:5000/questions -d 
+'{ "answer": "Anansi Boys","question": "Name Neil Gaiman most popular book","difficulty": 4,"category" : 4 }'\n`<br>
+   {
+  "new_question_id": 36, 
+  "success": true
+}
+
+#### POST /quizzes
+
+* General:
+  * Allows users to play the quiz game.
+  * Uses JSON request parameters of category and previous questions.
+  * Returns JSON object with random question not among previous questions.
+* Sample: `curl http://127.0.0.1:5000/quizzes -X POST -H "Content-Type: application/json" -d '{"previous_questions": [20, 21],
+"quiz_category": {"type": "Science", "id": "1"}}'`<br>
+
+        {
+            "question": {
+                "answer": "Blood", 
+                "category": 1, 
+                "difficulty": 4, 
+                "id": 22, 
+                "question": "Hematology is a branch of medicine involving the study of what?"
+            }, 
+            "success": true
+        }
+
+ 
+#### DELETE /questions/\<int:id\>
+
+* General:
+  * Deletes a question by id using url parameters.
+  * Returns id of deleted question upon success.
+* Sample: `curl http://127.0.0.1:5000/questions/12 -X DELETE`<br>
+
+{
+  "question_id": 12, 
+  "success": true
+}
+
+
+### POST '/quizzes'
+
+- Fetches a dictionary of categories in which the keys are the ids and the value is the corresponding string of the category
+- Request Arguments: None
+- Returns: An object with a single key, categories, that contains a object of id: category_string key:value pairs. 
+{
+  "questions": [
+    {
+      "answer": "Tom Cruise", 
+      "category": 5, 
+      "difficulty": 4, 
+      "id": 4, 
+      "question": "What actor did author Anne Rice first denounce, then praise in the role of her beloved Lestat?"
+    }
+  ], 
+  "success": true, 
+  "total_questions": 1
+}
+
+
+```
+## Authors
+
+Norman Katwesigye authored the API (`__init__.py`), test suite (`test_flaskr.py`), and this README.<br>
+All other project files, including the models and frontend, were created by [Udacity](https://www.udacity.com/) as a project template for the [Full Stack Web Developer Nanodegree](https://www.udacity.com/course/full-stack-web-developer-nanodegree--nd0044).
 
 ```
 
