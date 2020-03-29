@@ -83,6 +83,7 @@ The API will return three types of errors:
 * 404 – resource not found
 * 422 – unprocessable
 * 500 - Internal Server Error
+* 405 - Method not allowed
 
 
 ## API Reference
