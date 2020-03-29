@@ -139,20 +139,21 @@ DELETE '/questions/<int:question_id>'
 
 * General: Returns a dictionary with the keys as ids and keys as categories.
   * Sample: `curl http://127.0.0.1:5000/categories`<br> 
+```
 {'1' : "Science",
 '2' : "Art",
 '3' : "Geography",
 '4' : "History",
 '5' : "Entertainment",
 '6' : "Sports"}
-
+```
 #### GET /categories/\<int:id\>/questions
 
 * General:
   * Gets questions by category id using url parameters.
   * Returns JSON object with paginated matching questions.
 * Sample: `curl http://127.0.0.1:5000/categories/4/questions`<br>
-
+```
        {
   "questions": [
     {
@@ -172,7 +173,7 @@ DELETE '/questions/<int:question_id>'
   ], 
   "success": true
 }
-
+```
 ### POST /questions
 
 This endpoint either creates a new question or returns search results.
@@ -184,7 +185,7 @@ This endpoint either creates a new question or returns search results.
   * Returns JSON object with newly created question, as well as paginated questions.
 * Sample: `curl -X POST -H "Content-Type: application/json" http://localhost:5000/questions -d 
 '{"searchTerm" :"Author"}'\n`<br>
-
+```
         {
   "questions": [
     {
@@ -198,6 +199,7 @@ This endpoint either creates a new question or returns search results.
   "success": true, 
   "total_questions": 1
 }
+```
 2.  If Json returned parameters include the key answer 
 
 * General:
@@ -205,11 +207,12 @@ This endpoint either creates a new question or returns search results.
   * Endpoint checks for key answer from  returned json parameters
 * Sample: `curl -X POST -H "Content-Type: application/json" http://localhost:5000/questions -d 
 '{ "answer": "Anansi Boys","question": "Name Neil Gaiman most popular book","difficulty": 4,"category" : 4 }'\n`<br>
+  ```
    {
   "new_question_id": 36, 
   "success": true
 }
-
+```
 #### POST /quizzes
 
 * General:
@@ -242,27 +245,7 @@ This endpoint either creates a new question or returns search results.
   "question_id": 12, 
   "success": true
 }
-
-
-### POST '/quizzes'
-
-- Fetches a dictionary of categories in which the keys are the ids and the value is the corresponding string of the category
-- Request Arguments: None
-- Returns: An object with a single key, categories, that contains a object of id: category_string key:value pairs. 
-{
-  "questions": [
-    {
-      "answer": "Tom Cruise", 
-      "category": 5, 
-      "difficulty": 4, 
-      "id": 4, 
-      "question": "What actor did author Anne Rice first denounce, then praise in the role of her beloved Lestat?"
-    }
-  ], 
-  "success": true, 
-  "total_questions": 1
-}
-
+````
 
 ```
 ## Authors
