@@ -23,7 +23,7 @@ def create_app(test_config=None):
     response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
     return response
   
-  #setup pagination feature
+  # setup pagination feature
   def setup_pagination():
     global start 
     global end
@@ -33,7 +33,7 @@ def create_app(test_config=None):
     return start,end
 
            
- #list all categories
+  # list all categories
   @app.route('/categories')
   def get_catageries():
       categories = {}
@@ -48,7 +48,7 @@ def create_app(test_config=None):
         })
 
   
-  #List all questions
+  # List all questions
   @app.route('/questions')
   def list_questions():
        formated_questions = []
@@ -72,7 +72,7 @@ def create_app(test_config=None):
         })
 
     
-   #Get question based on question id 
+  # Get question based on question id 
   @app.route('/questions/<int:question_id>',methods=['GET','DELETE'])
   def delete_question(question_id):
       questions_to_delete = Question.query.filter_by(id=question_id).first()
@@ -84,7 +84,7 @@ def create_app(test_config=None):
           'success' : True
       })
 
- # list questions and search
+  # list questions and search
   @app.route('/questions',methods=['GET','POST'])
   def add_question_add_search():
       search_results = []
@@ -174,6 +174,7 @@ def create_app(test_config=None):
             'error': 400,
             'message': ' Bad request ' + str(error)
         }), 400
+
   @app.errorhandler(500)
   def bad_request(error):
         """
