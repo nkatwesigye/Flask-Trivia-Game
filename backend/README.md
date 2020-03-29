@@ -220,7 +220,7 @@ This endpoint either creates a new question or returns search results.
   * Uses JSON request parameters of category and previous questions.
   * Returns JSON object with random question not among previous questions.
 * Sample: `curl http://127.0.0.1:5000/quizzes -X POST -H "Content-Type: application/json" -d '{"previous_questions": [20, 21],
-"quiz_category": {"type": "Science", "id": "1"}}'`<br>
+"quiz_category": {"type": "Science", "id": "1"}}'\n`<br>
 ```
         {
             "question": {
