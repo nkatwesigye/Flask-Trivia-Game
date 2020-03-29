@@ -77,6 +77,37 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(res.status_code,200)
         self.assertEqual(data['success'],True)
         self.assertTrue(data['new_question_id'])
+
+    def test_delete_questions(self):
+        """   create question and delete it based on id """
+        question = Question(question=self.new_question['question'], answer=self.new_question['answer'],
+                            category=self.new_question['category'], difficulty=self.new_question['difficulty'])
+        question.insert()
+
+        #check created question id 
+        question_id = question.id 
+
+        #check questions before deletion
+        before_deletion = Question.query.all()
+        res = self.client().delete('/questions/'+ str(question_id))
+        data = json.loads(res.data)
+
+        #check questions after deletion
+        after_deletion  = Question.query.all()
+        #check if question with question id was deleted
+        question = Question.query.filter(Question.id == question_id).one_or_none()
+
+        self.assertEqual(res.status_code,200)
+        self.assertEqual(data['success'],True)
+        self.assertEqual(data['question_id'], question_id)
+
+    def test_not_allowed_put_method_question(self):
+        """ Test not allowed put method """
+        res = self.client().put('/questions',json=self.new_question)
+        data = json.loads(res.data)
+        self.assertEqual(res.status_code,405)
+        self.assertEqual(data['success'],False)
+        
         
     def test_search_question(self):
         """ search questions by search term  """
@@ -87,9 +118,9 @@ class TriviaTestCase(unittest.TestCase):
         self.assertTrue(data['total_questions'])
 
 
-    def test_questions_by_non_existing_id(self):
+    def test_delete_questions_by_non_existing_id(self):
         """ Delete questions by non_existing id  """
-        res = self.client().get('/questions/1000')
+        res = self.client().delete('/questions/1000')
         data = json.loads(res.data)
         self.assertEqual(res.status_code,422)
         self.assertEqual(data['success'],False)
