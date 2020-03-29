@@ -221,7 +221,7 @@ This endpoint either creates a new question or returns search results.
   * Returns JSON object with random question not among previous questions.
 * Sample: `curl http://127.0.0.1:5000/quizzes -X POST -H "Content-Type: application/json" -d '{"previous_questions": [20, 21],
 "quiz_category": {"type": "Science", "id": "1"}}'`<br>
-
+```
         {
             "question": {
                 "answer": "Blood", 
@@ -233,19 +233,19 @@ This endpoint either creates a new question or returns search results.
             "success": true
         }
 
- 
+ ```
 #### DELETE /questions/\<int:id\>
 
 * General:
   * Deletes a question by id using url parameters.
   * Returns id of deleted question upon success.
 * Sample: `curl http://127.0.0.1:5000/questions/12 -X DELETE`<br>
-
+```
 {
   "question_id": 12, 
   "success": true
 }
-````
+```
 
 ```
 ## Authors
