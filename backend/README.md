@@ -206,8 +206,9 @@ This endpoint either creates a new question or returns search results.
   * Add question capability:
   * Endpoint checks for key answer from  returned json parameters
 * Sample: `curl -X POST -H "Content-Type: application/json" http://localhost:5000/questions -d 
-'{ "answer": "Anansi Boys","question": "Name Neil Gaiman most popular book","difficulty": 4,"category" : 4 }'\n`<br>
-  ```
+'{ "answer": "Anansi Boys","question": "Name Neil Gaiman most popular book","difficulty": 
+ 4,"category" : 4 }'\n`<br>
+```
    {
   "new_question_id": 36, 
   "success": true
