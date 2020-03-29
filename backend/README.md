@@ -211,7 +211,7 @@ This endpoint either creates a new question or returns search results.
    {
   "new_question_id": 36, 
   "success": true
-}
+    }
 ```
 #### POST /quizzes
 
