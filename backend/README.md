@@ -147,7 +147,7 @@ DELETE '/questions/<int:question_id>'
 '5' : "Entertainment",
 '6' : "Sports"}
 ```
-#### GET /categories/\<int:id\>/questions
+#### GET '/categories/\<int:id\>/questions'
 
 * General:
   * Gets questions by category id using url parameters.
@@ -174,7 +174,7 @@ DELETE '/questions/<int:question_id>'
   "success": true
 }
 ```
-### POST /questions
+### POST '/questions'
 
 This endpoint either creates a new question or returns search results.
 
@@ -214,7 +214,7 @@ This endpoint either creates a new question or returns search results.
   "success": true
     }
 ```
-#### POST /quizzes
+#### POST '/quizzes'
 
 * General:
   * Allows users to play the quiz game.
@@ -234,7 +234,7 @@ This endpoint either creates a new question or returns search results.
         }
 
  ```
-#### DELETE /questions/\<int:id\>
+#### DELETE '/questions/\<int:id\>'
 
 * General:
   * Deletes a question by id using url parameters.
